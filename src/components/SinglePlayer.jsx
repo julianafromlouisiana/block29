@@ -16,19 +16,21 @@ const SinglePlayer = () => {
     const [error, setError] = useState(null);
     const [newPlayerName, setNewPlayerName] = useState("");
     const [newPlayerBreed, setNewPlayerBreed] = useState("");
+    const [loading, setLoading] = useState(true);
      //Set useNavigate variable in a const
      const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try{
-                console.log('Fetch player data:', id);
                 const data = await fetchSinglePlayer(id);
-                console.log(data);
                 setPlayer(data);
+                setLoading(false);
+                
             } catch (error) {
                 console.error(error);
                 setError(error);
+                setLoading(false);
             }
         };
         fetchData();
@@ -43,7 +45,14 @@ const SinglePlayer = () => {
             };
 
             await addPlayer(newPlayerData);
-            navigate('/all-players');
+
+            const updatedPlayerData = await fetchSinglePlayer(id);
+
+            setPlayer(updatedPlayerData);
+
+            setNewPlayerName("");
+            setNewPlayerBreed("");
+            navigate(`/players/${id}`);
         } catch (error) {
             console.log(error);
         }
@@ -71,7 +80,7 @@ const SinglePlayer = () => {
 
          {/*Put SinglePlayer here */}
 
-            {player ? (
+            {player && (
                 <div>
                     <h2>{player.name}</h2>
                     <button onClick={deleteButton}>Remove Player</button>
@@ -97,10 +106,9 @@ const SinglePlayer = () => {
                     <button type="submit">Add Player</button>
                 </form>
                 </div>
-
-            ) : (
-                <p>Please hold...</p>
-            )}
+              )}
+                {!player && <p>Please hold...</p>}
+          
 
             <button onClick={() => navigate('/all-players')}>Back</button>
         </div>

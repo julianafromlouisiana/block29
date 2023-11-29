@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchAllPlayers } from '../API';
+import { Link } from 'react-router-dom';
 
 
 const AllPlayers = () => {
@@ -9,9 +10,10 @@ const AllPlayers = () => {
     useEffect(() => {
     const fetchData = async () => {
         try{
-            const data = await fetchAllPlayers();
-            console.log(data.data.players);
-            setPlayers(data.data.players);//We can see it log what we set our variables to so you can see the output
+            const response = await fetchAllPlayers();
+            const { data } = response;
+            console.log(data.players);
+            setPlayers(data.players);//We can see it log what we set our variables to so you can see the output
         } catch (error) {
             console.error(error);
             setError(error);
@@ -33,7 +35,9 @@ const AllPlayers = () => {
 
            ( <ul>
                 {players.map((player) => (
-                    <li key={player.id}>{player.name}</li>
+                    <li key={player.id}>
+                    <Link to={`/players/${player.id}`}>{player.name}</Link>
+                    </li>
 
                 ))}
                 
