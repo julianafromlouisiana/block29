@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 //Import useNavigate from react-router-dom
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchSinglePlayer, removePlayer, addPlayer } from "../API";
+import { fetchSinglePlayer, removePlayer, addPlayer} from "../API";
 
 
 

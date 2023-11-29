@@ -37,6 +37,12 @@ const AllPlayers = () => {
                 {players.map((player) => (
                     <li key={player.id}>
                     <Link to={`/players/${player.id}`}>{player.name}</Link>
+                    {player.imageUrl && (
+            <div>
+              <p>Image URL: {player.imageUrl}</p>
+              <img src={player.imageUrl} alt={player.name} />
+            </div>
+          )}
                     </li>
 
                 ))}
